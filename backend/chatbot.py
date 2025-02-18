@@ -2,7 +2,6 @@
 import psycopg2 # PostgreSQL database adapter for Python
 from prettytable import PrettyTable
 from backend.LLM_Model import generate_sql_query
-import re
 import os
 
 def execute_query(query):
@@ -32,8 +31,10 @@ def execute_query(query):
             table.field_names = [desc[0] for desc in cursor.description]
             for row in results:
                  table.add_row(row)
-            # Print table
-            return(table)
+            # Convert PrettyTable to a string
+            table_str = table.get_string()
+            return table_str
+            # return(table)  # Print table
     
     except psycopg2.Error as e:
         conn.close()
