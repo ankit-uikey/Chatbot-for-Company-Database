@@ -1,13 +1,9 @@
 # Import Required Libraries
 import psycopg2 # PostgreSQL database adapter for Python
+from prettytable import PrettyTable
 from backend.LLM_Model import generate_sql_query
 import re
 import os
-
-def extract_date(user_input):
-    """Extracts date from user input (YYYY-MM-DD format)."""
-    match = re.search(r"\d{4}-\d{2}-\d{2}", user_input)
-    return match.group(0) if match else None
 
 def execute_query(query):
     """Executes the SQL query on the PostgreSQL Server database."""
@@ -32,8 +28,13 @@ def execute_query(query):
         if not results:
             return "No matching records found."
         else:
-            return "\n".join(str(row) for row in results)    
-        
+            table = PrettyTable()
+            table.field_names = [desc[0] for desc in cursor.description]
+            for row in results:
+                 table.add_row(row)
+            # Print table
+            return(table)
+    
     except psycopg2.Error as e:
         conn.close()
         return f"Database error: {e}"
