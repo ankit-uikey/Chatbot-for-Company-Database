@@ -68,6 +68,6 @@ def generate_sql_query(natural_language_question):
         return f"Error: {response.status_code}, {response.text}"
 
 # Use for Testing Query Generation Manually
-user_question = "Show all the employees whos mangager is John Doe."
-sql_output = generate_sql_query(user_question)
-print(sql_output)
+#user_question = "Show all the employees whos mangager is John Doe."
+#sql_output = generate_sql_query(user_question)
+#print(sql_output)

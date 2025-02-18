@@ -74,7 +74,7 @@ function fetchBotResponse(message) {
         if (data && data.response) {
             // Display formatted table inside <pre> tag
             appendMessage("BOT", `<pre>${data.response}</pre>`);
-            currentConversation.push({ sender: 'BOT', text: data.response });
+            currentConversation.push({ sender: 'BOT', text: `<pre>${data.response}</pre>` });
         } else {
             appendMessage("BOT", "⚠️ Unexpected response format.");
         }
