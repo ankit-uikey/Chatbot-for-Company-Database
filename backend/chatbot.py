@@ -27,14 +27,15 @@ def execute_query(query):
         if not results:
             return "No matching records found."
         else:
-            table = PrettyTable()
-            table.field_names = [desc[0] for desc in cursor.description]
-            for row in results:
-                 table.add_row(row)
-            # Convert PrettyTable to a string
-            table_str = table.get_string()
-            return table_str
-            # return(table)  # Print table
+            return "\n".join(str(row) for row in results)
+            # table = PrettyTable()
+            # table.field_names = [desc[0] for desc in cursor.description]
+            # for row in results:
+            #      table.add_row(row)
+            # # Convert PrettyTable to a string
+            # table_str = table.get_string()
+            # return table_str
+            # # return(table)  # Print table
     
     except psycopg2.Error as e:
         conn.close()
