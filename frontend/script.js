@@ -79,15 +79,19 @@ function fetchBotResponse(message) {
     })
     .then(data => {
         if (data && data.response) {
-            appendMessage("BOT", `<pre>${data.response}</pre>`);
+            let botResponse = `<pre>${data.response}</pre>`;
+            appendMessage("BOT", botResponse);
+            currentConversation.push({ sender: "BOT", text: botResponse }); // Store bot response in current conversation history
             
         } else {
             appendMessage("BOT", "⚠️ Unexpected response format.");
+            currentConversation.push({ sender: "BOT", text: "⚠️ Unexpected response format." }); // Save error message in history
         }
     })
     .catch(error => {
         console.error("Error fetching Data & Response:", error);
         appendMessage("BOT", "❌ Error fetching response. Please try again.");
+        currentConversation.push({ sender: "BOT", text: "❌ Error fetching response. Please try again." }); // Save error message in history
     });
 }
 
@@ -157,28 +161,3 @@ document.getElementById('popup').addEventListener('click', (e) => {
     }
 });
 
-// Convert JSON to an HTML Table
-function generateTable(data) {
-    if (!data || data.length === 0) return "<p>No data available.</p>";
-
-    let table = "<table border='1' style='border-collapse: collapse; width: 100%; text-align: left;'>";
-    table += "<tr style='background-color: #f2f2f2;'>";
-
-    // Table Headers
-    for (let key in data[0]) {
-        table += `<th style='padding: 8px; border: 1px solid #ddd;'>${key.replace("_", " ")}</th>`;
-    }
-    table += "</tr>";
-
-    // Table Rows
-    data.forEach(row => {
-        table += "<tr>";
-        for (let key in row) {
-            table += `<td style='padding: 8px; border: 1px solid #ddd;'>${row[key]}</td>`;
-        }
-        table += "</tr>";
-    });
-
-    table += "</table>";
-    return table;
-}

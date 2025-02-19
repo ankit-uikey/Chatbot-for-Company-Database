@@ -110,16 +110,16 @@ body {
 
 .conversation-text {
     font-weight: bold;
-    color: #fff;
+    color: #ffffff;
 }
 
 .conversation-content {
-    color: #ddd;
+    color: #f4f4f4;
 }
 
 #new-conversation-btn {
     background-color: #111111;
-    color: #fff;
+    color: #ffffff;
     border: none;
     padding: 10px 20px;
     border-radius: 50px;
@@ -136,7 +136,7 @@ body {
 
 #clear-history-btn {
     background-color: #111111;
-    color: #fff;
+    color: #ffffff;
     border: none;
     padding: 10px 20px;
     border-radius: 50px;
@@ -334,14 +334,14 @@ button {
 .schema-button {
     width: 60%;
     padding: 10px 20px;
-    background-color: #1d1c1c;
+    background-color: #111111;
     color: white;
     border: none;
     cursor: pointer;
-    margin-left: 20%;
-    margin-top: 100%; /* Push button to the bottom */
+    margin-left: 20%; /* Adjust this value to move the button left or right */
+    margin-top: 100%; /* Adjust this value to move the button up or down */
     border-radius: 50px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s; 
 }
 
 .schema-button:hover {
@@ -350,9 +350,9 @@ button {
 
 /* Popup Styling */
 .popup {
-    display: none;
+    display: none; 
     position: fixed;
-    top: 0;
+    top: 0; 
     left: 0;
     width: 100%;
     height: 100%;
@@ -363,7 +363,7 @@ button {
 
 .popup-content {
     background: white;
-    padding: 10px;
+    padding: 5px;
     border-radius: 5px;
     max-width: 90%;
     max-height: 90%;
