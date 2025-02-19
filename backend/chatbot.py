@@ -1,8 +1,12 @@
 # Import Required Libraries
 import psycopg2 # PostgreSQL database adapter for Python
 from prettytable import PrettyTable
-from backend.LLM_Model import generate_sql_query
+from backend.LLM_Model import generate_sql_query # Import the function from LLM_Model.py in Deployment
+# from LLM_Model import generate_sql_query         # Use only for Testing in Localhost
 import os
+#from dotenv import load_dotenv    # Use only for Testing in Localhost
+#load_dotenv()                     # Use only for Testing in Localhost
+
 
 def execute_query(query):
     """Executes the SQL query on the PostgreSQL Server database."""
@@ -11,8 +15,8 @@ def execute_query(query):
     conn = psycopg2.connect(
         dbname=os.getenv("DB_NAME"),
         user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PWD"), # Remove in Deployment or Push
-        host=os.getenv("DB_HOST"), # e.g., "localhost" or an IP address
+        password=os.getenv("DB_PWD"),
+        host=os.getenv("DB_HOST"), 
         port="5432" # default is 5432
     )
 

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from backend.chatbot import process_query
+from backend.chatbot import process_query   # Import the function from chatbot.py in Deployment
+# from chatbot import process_query         # Use only for Testing in Localhost
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,6 +20,7 @@ app.add_middleware(
 
 # Get absolute path of frontend directory
 frontend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "/workspace/frontend"))
+# frontend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../frontend"))  # Use only for Testing in Localhost
 
 # Check if the frontend folder exists
 if not os.path.exists(frontend_path):
