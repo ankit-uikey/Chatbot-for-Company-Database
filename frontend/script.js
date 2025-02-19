@@ -50,6 +50,7 @@ function sendMessage() {
     if (message !== '') {
         appendMessage('User', message);
         currentConversation.push({ sender: 'User', text: message });
+        document.getElementById('loading').style.display = 'block';  // Show "Searching..." loader
         fetchBotResponse(message);
         userInput.value = '';
     }
@@ -78,6 +79,7 @@ function fetchBotResponse(message) {
         return response.json();
     })
     .then(data => {
+        document.getElementById('loading').style.display = 'none';  // Hide Searching loader
         if (data && data.response) {
             let botResponse = `<pre>${data.response}</pre>`;
             appendMessage("BOT", botResponse);
