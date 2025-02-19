@@ -69,16 +69,28 @@ function fetchBotResponse(message) {
     fetch("https://striped-selia-ankituikey-f30b92bb.koyeb.app/chat", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: message })  // Send user message
+        body: JSON.stringify({ message: message })  // Dynamically send user message
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
-        if (data && data.response) {
-            const tableHTML = generateTable(data.response);
-            appendTable(tableHTML); // Append table response
-            currentConversation.push({ sender: 'BOT', text: tableHTML });
+        if (data && typeof data.response === "object") {
+            if (Array.isArray(data.response) && data.response.length > 0) {
+                const tableHTML = generateTable(data.response); // Convert JSON to Table
+                chatBox.innerHTML += `<div>${tableHTML}</div>`;  // Append table to chat
+                chatBox.scrollTop = chatBox.scrollHeight;
+                currentConversation.push({ sender: "BOT", text: "Table response received." });
+            } else {
+                appendMessage("BOT", JSON.stringify(data.response, null, 2)); // Convert object to readable format
+                currentConversation.push({ sender: "BOT", text: JSON.stringify(data.response) });
+            }
         } else {
-            appendMessage("BOT", "⚠️ Unexpected response format.");
+            appendMessage("BOT", data.response || "⚠️ Unexpected response format.");
+            currentConversation.push({ sender: "BOT", text: data.response || "Unexpected response format." });
         }
     })
     .catch(error => {
@@ -86,6 +98,7 @@ function fetchBotResponse(message) {
         appendMessage("BOT", "❌ Error fetching response. Please try again.");
     });
 }
+
 
 // Append Table to Chat Box
 function appendTable(tableHTML) {
