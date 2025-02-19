@@ -125,6 +125,7 @@ body {
     border-radius: 50px;
     cursor: pointer;
     align-items: center;
+    margin-left: 20%;
     transition: background-color 0.3s;
 }
 
@@ -139,6 +140,7 @@ body {
     border: none;
     padding: 10px 20px;
     border-radius: 50px;
+    margin-left: 30%;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -330,14 +332,16 @@ button {
 
 /* Sidebar Button Styling */
 .schema-button {
-    width: 100%;
-    padding: 10px;
+    width: 60%;
+    padding: 10px 20px;
     background-color: #1d1c1c;
     color: white;
     border: none;
-    font-size: 16px;
     cursor: pointer;
-    margin-top: auto; /* Push button to the bottom */
+    margin-left: 20%;
+    margin-top: 100%; /* Push button to the bottom */
+    border-radius: 50px;
+    transition: background-color 0.3s;
 }
 
 .schema-button:hover {
