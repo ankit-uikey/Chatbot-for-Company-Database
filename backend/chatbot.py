@@ -31,9 +31,16 @@ def execute_query(query):
         if not results:
             return "No matching records found."
         else:
-            columns = [desc[0] for desc in cursor.description] # Get column names
-            data = [dict(zip(columns, row)) for row in results] # Convert to list of dictionaries (JSON)
-            return {"response": data}  # Return as JSON response
+            table = PrettyTable()
+            table.field_names = [desc[0] for desc in cursor.description] # Get column names
+            for row in results:
+                table.add_row(row)
+
+            # Convert to string format
+            table_str = table.get_string()
+            return table_str  # Returning as a string
+            
+            # return {"response": data}  # Return as JSON response
             # return "\n".join(str(row) for row in results)
     
     except psycopg2.Error as e:

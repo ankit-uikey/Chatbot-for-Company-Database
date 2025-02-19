@@ -79,19 +79,8 @@ function fetchBotResponse(message) {
     })
     .then(data => {
         if (data && data.response) {
-            if (Array.isArray(data.response) && data.response.length > 0) {
-                // If the response is an array of objects, display it as a table
-                const tableHTML = generateTable(data.response);
-                chatBox.innerHTML += `<div>${tableHTML}</div>`;
-            } else if (typeof data.response === "object") {
-                // If the response is an object, display it as formatted JSON
-                appendMessage("BOT", `<pre>${JSON.stringify(data.response, null, 2)}</pre>`);
-            } else {
-                // For any other data type (e.g., string), display it directly
-                appendMessage("BOT", data.response);
-            }
-            chatBox.scrollTop = chatBox.scrollHeight;
-            currentConversation.push({ sender: "BOT", text: "Response received." });
+            appendMessage("BOT", `<pre>${data.response}</pre>`);
+            
         } else {
             appendMessage("BOT", "⚠️ Unexpected response format.");
         }
