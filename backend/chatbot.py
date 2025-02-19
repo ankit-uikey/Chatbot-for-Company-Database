@@ -4,8 +4,8 @@ from prettytable import PrettyTable
 from backend.LLM_Model import generate_sql_query # Import the function from LLM_Model.py in Deployment
 # from LLM_Model import generate_sql_query         # Use only for Testing in Localhost
 import os
-#from dotenv import load_dotenv    # Use only for Testing in Localhost
-#load_dotenv()                     # Use only for Testing in Localhost
+# from dotenv import load_dotenv    # Use only for Testing in Localhost
+# load_dotenv()                     # Use only for Testing in Localhost
 
 
 def execute_query(query):

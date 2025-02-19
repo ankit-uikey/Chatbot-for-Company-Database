@@ -65,7 +65,7 @@ function appendMessage(sender, message) {
 
 // Fetch Response & Convert to Table
 function fetchBotResponse(message) {
-    // fetch("http://127.0.0.1:5000/chat", {          // Use this URL for local development
+    // fetch("http://127.0.0.1:8000/chat", {          // Use this URL for local development
     fetch("https://striped-selia-ankituikey-f30b92bb.koyeb.app/chat", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },

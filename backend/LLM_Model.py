@@ -1,7 +1,7 @@
 import requests
 import os
-#from dotenv import load_dotenv    # Use only for Testing in Localhost
-#load_dotenv()                     # Use only for Testing in Localhost
+# from dotenv import load_dotenv    # Use only for Testing in Localhost
+# load_dotenv()                     # Use only for Testing in Localhost
 
 # Loading Hugging Face Model & API key securely from environment variable
 API_KEY = os.getenv("DB_HuggingFace_Key")
@@ -10,7 +10,7 @@ if not API_KEY:
 
 # Hugging Face Model API
 API_URL = "https://api-inference.huggingface.co/models/google/gemma-2-2b-it"  # Using Google Gemma model
-HEADERS = {"Authorization": f"Bearer {API_KEY}"} # Remove in Deployment or Push
+HEADERS = {"Authorization": f"Bearer {API_KEY}"} 
 
 
 # Database Schema
