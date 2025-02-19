@@ -27,8 +27,12 @@
             <button id="new-conversation-btn">Start New Conversation</button>
             <ul id="conversation-list"></ul> 
             <button id="clear-history-btn">Clear History</button>
+
+            <!-- "View Table Schema" Button at the Bottom -->
+            <button id="schema-btn" class="schema-button">View Table Schema</button>
         </div>
     </div>
+
     <!-- Chat Area -->
     <div class="chat-container light-mode">
         <div class="chat-content">
@@ -57,6 +61,14 @@
             </div>
         </div>
     </div>
+    
+    <!-- Popup for Table Schema -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <img src="/static/database-schema.jpg" alt="Table Schema">
+        </div>
+    </div>
+
     <script src="/static/script.js"></script>
 </body>
 

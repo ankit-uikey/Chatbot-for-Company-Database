@@ -146,6 +146,17 @@ function clearConversationHistory() {
     conversationStarted = false;
 }
 
+document.getElementById('schema-btn').addEventListener('click', () => {
+    document.getElementById('popup').style.display = 'flex';
+});
+
+// Close popup when clicking outside the image
+document.getElementById('popup').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('popup')) {
+        document.getElementById('popup').style.display = 'none';
+    }
+});
+
 // Convert JSON to an HTML Table
 function generateTable(data) {
     if (!data || data.length === 0) return "<p>No data available.</p>";
