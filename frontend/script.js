@@ -50,7 +50,14 @@ function sendMessage() {
     if (message !== '') {
         appendMessage('User', message);
         currentConversation.push({ sender: 'User', text: message });
-        document.getElementById('loading').style.display = 'block';  // Show "Searching..." loader
+        
+        // Append Searching... loader inside the chat area
+        const loadingDiv = document.createElement('div');
+        loadingDiv.id = 'loading';
+        loadingDiv.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Searching...`;
+        chatBox.appendChild(loadingDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        
         fetchBotResponse(message);
         userInput.value = '';
     }
@@ -79,7 +86,7 @@ function fetchBotResponse(message) {
         return response.json();
     })
     .then(data => {
-        document.getElementById('loading').style.display = 'none';  // Hide Searching loader
+        removeLoader(); // Remove Searching... loader
         if (data && data.response) {
             let botResponse = `<pre>${data.response}</pre>`;
             appendMessage("BOT", botResponse);
@@ -91,19 +98,11 @@ function fetchBotResponse(message) {
         }
     })
     .catch(error => {
+        removeLoader(); // Hide loader on error
         console.error("Error fetching Data & Response:", error);
         appendMessage("BOT", "❌ Error fetching response. Please try again.");
         currentConversation.push({ sender: "BOT", text: "❌ Error fetching response. Please try again." }); // Save error message in history
     });
-}
-
-// Append Table to Chat Box
-function appendTable(tableHTML) {
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('chat-message');
-    messageDiv.innerHTML = `<strong>BOT:</strong><br>${tableHTML}`;
-    chatBox.appendChild(messageDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 // Update Conversation List
@@ -163,3 +162,9 @@ document.getElementById('popup').addEventListener('click', (e) => {
     }
 });
 
+function removeLoader() {
+    const loader = document.getElementById('loading');
+    if (loader) {
+        loader.remove();
+    }
+}
