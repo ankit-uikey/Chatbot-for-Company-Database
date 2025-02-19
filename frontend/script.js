@@ -1,4 +1,4 @@
-const chatBox = document.getElementById('chat-box'); 
+const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
 const sidebarToggle = document.getElementById('sidebar-toggle');
@@ -12,10 +12,12 @@ let conversations = JSON.parse(localStorage.getItem("conversations")) || [];
 let currentConversation = [];
 let conversationStarted = false;
 
+// Toggle Dark Mode
 modeToggle.addEventListener('change', () => {
     document.body.classList.toggle('dark-mode');
 });
 
+// Handle User Input & Send Message
 sendButton.addEventListener('click', sendMessage);
 userInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
@@ -27,6 +29,7 @@ userInput.addEventListener('keydown', (event) => {
     }
 });
 
+// Sidebar Toggle
 document.addEventListener('DOMContentLoaded', function () {
     const chatContainer = document.querySelector('.chat-container');
     updateConversationList();
@@ -41,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     clearHistoryBtn.addEventListener('click', clearConversationHistory);
 });
 
+// Send Message & Get Response
 function sendMessage() {
     const message = userInput.value.trim();
     if (message !== '') {
@@ -51,31 +55,28 @@ function sendMessage() {
     }
 }
 
+// Append Message to Chat Box
 function appendMessage(sender, message) {
-    const p = document.createElement('p');
-    p.textContent = `${sender}: ${message}`;
-    chatBox.appendChild(p);
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('chat-message');
+    messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    chatBox.appendChild(messageDiv);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+// Fetch Response & Convert to Table
 function fetchBotResponse(message) {
     fetch("https://striped-selia-ankituikey-f30b92bb.koyeb.app/chat", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: message })  // Dynamically send user message
+        body: JSON.stringify({ message: message })  // Send user message
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         if (data && data.response) {
-            // Display formatted table inside <pre> tag
-            const tableHTML = generateTable(data.response); // Convert JSON to Table
-            appendMessage("BOT", tableHTML); // Append table to chat box
-            // currentConversation.push({ sender: 'BOT', text: `<pre>${data.response}</pre>` });
+            const tableHTML = generateTable(data.response);
+            appendTable(tableHTML); // Append table response
+            currentConversation.push({ sender: 'BOT', text: tableHTML });
         } else {
             appendMessage("BOT", "⚠️ Unexpected response format.");
         }
@@ -86,7 +87,16 @@ function fetchBotResponse(message) {
     });
 }
 
+// Append Table to Chat Box
+function appendTable(tableHTML) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('chat-message');
+    messageDiv.innerHTML = `<strong>BOT:</strong><br>${tableHTML}`;
+    chatBox.appendChild(messageDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
 
+// Update Conversation List
 function updateConversationList() {
     conversationList.innerHTML = "";
     conversations.forEach((conv, index) => {
@@ -97,12 +107,20 @@ function updateConversationList() {
     });
 }
 
+// Load Previous Conversation
 function loadConversation(index) {
     chatBox.innerHTML = "";
-    conversations[index].forEach(msg => appendMessage(msg.sender, msg.text));
+    conversations[index].forEach(msg => {
+        if (msg.text.includes("<table")) {
+            appendTable(msg.text);
+        } else {
+            appendMessage(msg.sender, msg.text);
+        }
+    });
     currentConversation = conversations[index];
 }
 
+// Start a New Conversation
 function startNewConversation() {
     if (currentConversation.length) {
         conversations.push(currentConversation);
@@ -114,6 +132,7 @@ function startNewConversation() {
     conversationStarted = false;
 }
 
+// Clear Conversation History
 function clearConversationHistory() {
     conversations = [];
     localStorage.removeItem("conversations");
@@ -121,20 +140,21 @@ function clearConversationHistory() {
     chatBox.innerHTML = "";
     currentConversation = [];
     conversationStarted = false;
-} 
+}
 
-// Function to Convert JSON to an HTML Table
+// Convert JSON to an HTML Table
 function generateTable(data) {
     if (!data || data.length === 0) return "<p>No data available.</p>";
 
-    let table = "<table border='1' style='border-collapse: collapse; width: 100%; text-align: left;'>";
-    table += "<tr style='background-color: #f2f2f2;'>";
+    let table = `<table style="border-collapse: collapse; width: 100%; text-align: left; border: 1px solid #ddd;">
+                    <thead style="background-color: #f2f2f2;">`;
 
     // Table Headers
+    table += "<tr>";
     for (let key in data[0]) {
         table += `<th style='padding: 8px; border: 1px solid #ddd;'>${key.replace("_", " ")}</th>`;
     }
-    table += "</tr>";
+    table += "</tr></thead><tbody>";
 
     // Table Rows
     data.forEach(row => {
@@ -145,6 +165,6 @@ function generateTable(data) {
         table += "</tr>";
     });
 
-    table += "</table>";
+    table += "</tbody></table>";
     return table;
 }
