@@ -57,10 +57,9 @@ function sendMessage() {
 
 // Append Message to Chat Box
 function appendMessage(sender, message) {
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('chat-message');
-    messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
-    chatBox.appendChild(messageDiv);
+    const p = document.createElement('p');
+    p.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    chatBox.appendChild(p);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
@@ -69,7 +68,7 @@ function fetchBotResponse(message) {
     fetch("https://striped-selia-ankituikey-f30b92bb.koyeb.app/chat", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: message })  // Dynamically send user message
+        body: JSON.stringify({ message: message })
     })
     .then(response => {
         if (!response.ok) {
@@ -78,19 +77,22 @@ function fetchBotResponse(message) {
         return response.json();
     })
     .then(data => {
-        if (data && typeof data.response === "object") {
+        if (data && data.response) {
             if (Array.isArray(data.response) && data.response.length > 0) {
-                const tableHTML = generateTable(data.response); // Convert JSON to Table
-                chatBox.innerHTML += `<div>${tableHTML}</div>`;  // Append table to chat
-                chatBox.scrollTop = chatBox.scrollHeight;
-                currentConversation.push({ sender: "BOT", text: "Table response received." });
+                // If the response is an array of objects, display it as a table
+                const tableHTML = generateTable(data.response);
+                chatBox.innerHTML += `<div>${tableHTML}</div>`;
+            } else if (typeof data.response === "object") {
+                // If the response is an object, display it as formatted JSON
+                appendMessage("BOT", `<pre>${JSON.stringify(data.response, null, 2)}</pre>`);
             } else {
-                appendMessage("BOT", JSON.stringify(data.response, null, 2)); // Convert object to readable format
-                currentConversation.push({ sender: "BOT", text: JSON.stringify(data.response) });
+                // For any other data type (e.g., string), display it directly
+                appendMessage("BOT", data.response);
             }
+            chatBox.scrollTop = chatBox.scrollHeight;
+            currentConversation.push({ sender: "BOT", text: "Response received." });
         } else {
-            appendMessage("BOT", data.response || "⚠️ Unexpected response format.");
-            currentConversation.push({ sender: "BOT", text: data.response || "Unexpected response format." });
+            appendMessage("BOT", "⚠️ Unexpected response format.");
         }
     })
     .catch(error => {
@@ -98,7 +100,6 @@ function fetchBotResponse(message) {
         appendMessage("BOT", "❌ Error fetching response. Please try again.");
     });
 }
-
 
 // Append Table to Chat Box
 function appendTable(tableHTML) {
@@ -159,15 +160,14 @@ function clearConversationHistory() {
 function generateTable(data) {
     if (!data || data.length === 0) return "<p>No data available.</p>";
 
-    let table = `<table style="border-collapse: collapse; width: 100%; text-align: left; border: 1px solid #ddd;">
-                    <thead style="background-color: #f2f2f2;">`;
+    let table = "<table border='1' style='border-collapse: collapse; width: 100%; text-align: left;'>";
+    table += "<tr style='background-color: #f2f2f2;'>";
 
     // Table Headers
-    table += "<tr>";
     for (let key in data[0]) {
         table += `<th style='padding: 8px; border: 1px solid #ddd;'>${key.replace("_", " ")}</th>`;
     }
-    table += "</tr></thead><tbody>";
+    table += "</tr>";
 
     // Table Rows
     data.forEach(row => {
@@ -178,6 +178,6 @@ function generateTable(data) {
         table += "</tr>";
     });
 
-    table += "</tbody></table>";
+    table += "</table>";
     return table;
 }
