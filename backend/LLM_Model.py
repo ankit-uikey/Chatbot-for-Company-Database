@@ -17,8 +17,7 @@ HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 db_schema = """
 CREATE TABLE Employees (
     Emp_ID INTEGER PRIMARY KEY,
-    First_Name TEXT NOT NULL,
-    Last_Name TEXT NOT NULL,
+    Name TEXT NOT NULL,
     Gender TEXT NOT NULL,
     Start_Date TEXT NOT NULL,
     Years_of_Exp INTEGER NOT NULL,
@@ -36,8 +35,7 @@ CREATE TABLE Employees (
 CREATE TABLE Manager (
     Emp_ID INTEGER PRIMARY KEY,
     Department TEXT NOT NULL,
-    First_Name TEXT NOT NULL,
-    Last_Name TEXT NOT NULL
+    Manager_Name TEXT NOT NULL
 );
 """
 

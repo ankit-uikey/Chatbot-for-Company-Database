@@ -12,7 +12,7 @@ app = FastAPI()
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://striped-selia-ankituikey-f30b92bb.koyeb.app/"],  # Change to your frontend domain in production
+    allow_origins=["https://striped-selia-ankituikey-f30b92bb.koyeb.app/"],  # Use frontend domain in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

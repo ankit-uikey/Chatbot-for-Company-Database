@@ -30,6 +30,10 @@ body {
     text-align: center;
 }
 
+.sidebar h6 {
+    text-align: center;
+}
+
 .light-mode .sidebar {
     background-color: #f5f5f5;
 }
@@ -375,4 +379,11 @@ button {
 .popup img {
     width: 100%;
     height: auto;
+}
+
+.intro-message {
+    color: rgb(18, 18, 18);
+    font-style: italic;
+    text-align: center;
+    margin: 10px 0;
 }

@@ -11,6 +11,7 @@ const clearHistoryBtn = document.getElementById('clear-history-btn');
 let conversations = JSON.parse(localStorage.getItem("conversations")) || [];
 let currentConversation = [];
 let conversationStarted = false;
+let introMessage;
 
 // Toggle Dark Mode
 modeToggle.addEventListener('change', () => {
@@ -18,9 +19,13 @@ modeToggle.addEventListener('change', () => {
 });
 
 // Handle User Input & Send Message
-sendButton.addEventListener('click', sendMessage);
+sendButton.addEventListener('click', () => {
+    removeIntroMessage();  // Remove Intro Message When User Clicks Send Button
+    sendMessage();
+});
 userInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
+        removeIntroMessage(); // Remove intro message on first user input
         sendMessage();
     }
     if (!conversationStarted && chatBox.innerHTML.trim() === "") {
@@ -29,8 +34,31 @@ userInput.addEventListener('keydown', (event) => {
     }
 });
 
+// Function to Show Intro Message
+function showIntroMessage() {
+    chatBox.innerHTML = ""; // Clear previous chats on refresh
+    introMessage = document.createElement('div');
+    introMessage.classList.add('intro-message');
+    introMessage.innerHTML = `
+        <p> Welcome! </p> 
+        <p> Ask me anything about the company database.</p>
+        <p> Simply, write your question in simple english language & bot will return your answer.</p>
+        <p> Example: "Show all employees in Sales department."</p>
+        <p> Example: "Show count of all the employees who joined in 2020."</p>
+    `;
+    chatBox.appendChild(introMessage);
+}
+// Function to Remove Intro Message
+function removeIntroMessage() {
+    if (introMessage) {
+        introMessage.remove();
+        introMessage = null;
+    }
+}
+
 // Sidebar Toggle
 document.addEventListener('DOMContentLoaded', function () {
+    showIntroMessage(); // Show intro message on page load
     const chatContainer = document.querySelector('.chat-container');
     const chatBox = document.getElementById('chat-box');
     const userInput = document.getElementById('user-input');
@@ -125,7 +153,7 @@ function appendMessage(sender, message) {
 
 // Fetch Response & Convert to Table
 function fetchBotResponse(message) {
-    // fetch("http://127.0.0.1:8000/chat", {          // Use this URL for local development
+    // fetch("http://127.0.0.1:8000/chat", {          // Use this URL for local development/Testing
     fetch("https://striped-selia-ankituikey-f30b92bb.koyeb.app/chat", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
