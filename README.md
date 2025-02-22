@@ -1,5 +1,6 @@
 # Chatbot for Company Database 
 **App URL:** https://striped-selia-ankituikey-f30b92bb.koyeb.app/
+
 Developed by **Ankit Uikey**
 
 ------------
@@ -16,14 +17,14 @@ Additionally, it can handle generic queries such as greetings, bot capabilities,
 **✅ Dynamic Sidebar –** Auto-collapses when clicking outside and toggles icons smoothly.
 **✅ Schema Popup –** Opens a popup containing Table Schema Image, with functionality of auto close when clicked outside image.
 
-### 🔧 Technologies Used
+## 🔧 Technologies Used
 - **💬 AI Model:** Google Gemma 2B IT (via Hugging Face API)
 - **🖥️ Frontend: **HTML, CSS, JavaScript
 - **🛠️ Backend:** Python (FastAPI)
 - **💾 Database:** PostgreSQL (via Koyeb)
 - **☁️ Deployment:** Koyeb / Hugging Face Inference API
 
-### 📌 How It Works
+## 📌 How It Works
 **1️⃣ User Input:** The user enters a question (e.g., "Show all employees in the HR department").
 
 **2️⃣ Query Processing:**
@@ -34,7 +35,7 @@ Additionally, it can handle generic queries such as greetings, bot capabilities,
 
 **3️⃣ Response Display:** The chatbot shows either a text response of general queries or a table output response of a SQL related query.
 
-### 📝 Example Queries & Responses
+## 📝 Example Queries & Responses
 **🟢 Generic Queries:**
 - "hi"
 - "who are you?"
@@ -42,23 +43,24 @@ Additionally, it can handle generic queries such as greetings, bot capabilities,
 
 **🟢 Database Query Generation:**
 - "Show all employees in HR."
-- "List employees who report to John Doe."
+- "List employees who report to John Doe.", etc.
 
-### 🚀 Future Enhancements
+## 🚀 Future Enhancements
 - Improve AI model to better handle conversational queries.
 - Implement database execution to return actual query results.
 - Add support for multiple databases (MySQL, MongoDB, etc.).
 - Enhance UI/UX with animations and user history generation.
 
-### 🤝 Contributing
+## 🤝 Contributing
 Contributions are welcome! Feel free to:
 - Open an Issue for bugs & feature requests.
 - Submit a Pull Request with improvements.
 
-### 📄 License
+## 📄 License
 This project is licensed under the MIT License.
 
-### 🌟 Show Your Support
+## 🌟 Show Your Support
 ⭐ Star this repo if you find it useful!
+
 🐦 Follow me on GitHub for more cool projects!
 
